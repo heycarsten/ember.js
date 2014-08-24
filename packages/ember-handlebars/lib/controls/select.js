@@ -23,8 +23,6 @@ import { A as emberA } from "ember-runtime/system/native_array";
 import { observer } from "ember-metal/mixin";
 import { defineProperty } from "ember-metal/properties";
 
-var precompileTemplate = EmberHandlebars.compile;
-
 var SelectOption = View.extend({
   instrumentDisplay: 'Ember.SelectOption',
 
@@ -335,7 +333,7 @@ var Select = View.extend({
 
   tagName: 'select',
   classNames: ['ember-select'],
-  defaultTemplate: precompileTemplate('{{#if view.prompt}}<option value="">{{view.prompt}}</option>{{/if}}{{#if view.optionGroupPath}}{{#each view.groupedContent}}{{view view.groupView content=content label=label}}{{/each}}{{else}}{{#each view.content}}{{view view.optionView content=this}}{{/each}}{{/if}}'),
+  defaultTemplate: EmberHandlebars.compile('{{#if view.prompt}}<option value="">{{view.prompt}}</option>{{/if}}{{#if view.optionGroupPath}}{{#each view.groupedContent}}{{view view.groupView content=content label=label}}{{/each}}{{else}}{{#each view.content}}{{view view.optionView content=this}}{{/each}}{{/if}}'),
   attributeBindings: ['multiple', 'disabled', 'tabindex', 'name', 'required', 'autofocus',
                       'form', 'size'],
 
