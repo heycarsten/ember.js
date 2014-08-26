@@ -1285,6 +1285,30 @@ test("{{link-to}} populates href with fully supplied query param values", functi
   equal(Ember.$('#the-link').attr('href'), "/?bar=NAW&foo=456", "link has right href");
 });
 
+test("The {{link-to}} helper allows navigation even when its classNames property is set to an array", function() {
+  Ember.TEMPLATES.index = Ember.Handlebars.compile(
+    '{{#link-to "about" classNames=styles id="classy-about"}}About{{/link-to}}');
+
+  App.Router.map(function() {
+    this.route('about');
+  });
+
+  App.IndexController = Ember.Controller.extend({
+    styles: ['s0', 's1']
+  });
+
+  bootApplication();
+
+  ok(Ember.$('#classy-about').hasClass('s0'), 'adds the "s0" CSS class');
+  ok(Ember.$('#classy-about').hasClass('s1'), 'adds the "s1" CSS class');
+
+  Ember.run(function() {
+    Ember.$('#classy-about', '#qunit-fixture').click();
+  });
+
+  equal(Ember.$('h3:contains(About)', '#qunit-fixture').length, 1, 'transitions to the about page');
+});
+
 QUnit.module("The {{link-to}} helper: invoking with query params", {
   setup: function() {
     Ember.run(function() {
